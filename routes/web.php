@@ -32,6 +32,20 @@ Route::get('/product', function () {
     ]);
 });
 
+Route::get('/redis', function () {
+    
+    // // print_r(app()->make('redis'));
+    // $app = app()->make('redis');
+    // $redis = app()->make('redis');
+    // $redis->set('key1', 'value test');
+    // return $redis->get('key1');
+    
+    $app = Redis::connection();
+    $app->set('key2', 'value test 2');
+    return $app->get('key2');
+
+});
+
 Route::get('/queue', function () {
     $queue = Queue::push('LogMessage',array('message'=>'Time: '.time()));
     
@@ -57,7 +71,7 @@ Route::post('import_product', function () {
 
     $fileName = time().'_'.request()->file->getClientOriginalName();
     request()->file('file')->storeAs('reports', $fileName, 'public');
-    
+    // ddd(request()->file('file'));
     Excel::import(new ProductsImport, request()->file('file'));
     return redirect()->back()->with('success','Data Imported Successfully');
 });
