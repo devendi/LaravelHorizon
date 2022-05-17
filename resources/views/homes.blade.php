@@ -8,14 +8,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
-
+{{-- 
 <form action="import_product" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="input-group files mb-3">
         <input type="file" name="file" class="form-control">
         <button class="btn btn-primary" type="submit">Submit</button>
     </div>
-</form>
+</form> --}}
 
 <form action="saveCSV" method="POST" enctype="multipart/form-data">
     @csrf

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
+use App\Imports\ProductsImport;
 
 class ProductController extends Controller
 {
@@ -82,17 +84,29 @@ class ProductController extends Controller
     {
         //
     }
+    public function parseCSV(Request $request)
+    {
+        
+        Excel::import(new ProductsImport, request()->file('file'));
+        return redirect()->back()->with('success','Data Imported Successfully');
+    }
     public function saveCSV(Request $request)
     {
-        // echo 'aaaaaaaaaaa';exit;
         
         $validatedData = $request->validate([
             'filecsv' => 'required|file|max:5024'
         ]);
-
-        $request->file('filecsv')->store('post-file');
-
-        // return back();
+        
+        // ddd($request->file('filecsv'));
+        $fileName = time().'_'.$request->file('filecsv')->getClientOriginalName();
+        request()->file('filecsv')->storeAs('get-reports', $fileName, 'public');
+        // request()->file('filecsv')->storeAs('reports', $fileName, 'public');
+        $app = Redis::connection();
+        $dataCSV = $app->get('files:csv');
+        $dataCSV .= "$fileName|";
+        $app->set('files:csv', $dataCSV);
+        // $echo = $app->get('files:csv');
+        return redirect()->back()->with('success','Data Imported Successfully');
     }
     
 }

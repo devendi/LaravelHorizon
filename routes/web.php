@@ -67,29 +67,29 @@ class LogMessage{
     }
 }
 
-Route::post('import', function () {
-    Excel::import(new UsersImport, request()->file('file'));
-    return redirect()->back()->with('success','Data Imported Successfully');
-});
+// Route::post('import', function () {
+//     Excel::import(new UsersImport, request()->file('file'));
+//     return redirect()->back()->with('success','Data Imported Successfully');
+// });
 
-Route::post('import_product', function () {
+// Route::post('import_product', function () {
     
-    $fileName = time().'_'.request()->file->getClientOriginalName();
-    request()->file('file')->storeAs('reports', $fileName, 'public');
+//     $fileName = time().'_'.request()->file->getClientOriginalName();
+//     request()->file('file')->storeAs('reports', $fileName, 'public');
     
-    // ddd(request()->file('file'));
-    Excel::import(new ProductsImport, request()->file('file'));
-    return redirect()->back()->with('success','Data Imported Successfully');
-});
+//     // ddd(request()->file('file'));
+//     Excel::import(new ProductsImport, request()->file('file'));
+//     return redirect()->back()->with('success','Data Imported Successfully');
+// });
 
-Route::post('import_product2', function () {
+// Route::post('import_product2', function () {
     
-    $fileName = time().'_'.request()->file->getClientOriginalName();
-    request()->file('filecsv')->storeAs('reports', $fileName, 'public');
-    return request()->file('filecsv')->store('post-images');
-    // ddd(request()->file('file'));
-    // Excel::import(new ProductsImport, request()->file('file'));
-    // return redirect()->back()->with('success','Data Imported Successfully');
-});
+//     $fileName = time().'_'.request()->file->getClientOriginalName();
+//     request()->file('filecsv')->storeAs('reports', $fileName, 'public');
+//     return request()->file('filecsv')->store('post-images');
+//     // ddd(request()->file('file'));
+//     // Excel::import(new ProductsImport, request()->file('file'));
+//     // return redirect()->back()->with('success','Data Imported Successfully');
+// });
 
 Route::post('saveCSV',[ProductController::class, 'saveCSV']);
