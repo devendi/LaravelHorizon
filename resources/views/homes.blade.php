@@ -20,7 +20,7 @@
 <form action="saveCSV" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="input-group files mb-3">
-        <input type="file" name="filecsv" class="form-control">
+        <input type="file" name=" " class="form-control">
         <button class="btn btn-primary" type="submit">Submit</button>
     </div>
 </form>
@@ -37,31 +37,12 @@
         </tr>
       </thead>
       <tbody>
-        {{-- @foreach ($posts as $post)
+        {{-- @foreach ($files as $file)
             
         <tr>
           <td>{{ $loop->iteration }}</td>
-          <td>{{ $post->title }}</td>
-          <td>{{ $post->category->name }}</td>
-          <td>
-            
-            <a class="badge bg-info" href="/dashboard/posts/{{ $post->slug }}">
-              <span data-feather="eye"></span>
-            </a>
-            <a class="badge bg-warning" href="/dashboard/posts/{{ $post->slug }}/edit">
-              <span data-feather="edit"></span>
-            </a>
-            
-            <form action="/dashboard/posts/{{ $post->slug }}" method="POST" class="d-inline" >
-              @method('delete')
-              @csrf
-              <button type="submit" class="badge bg-danger border-0" onclick="return confirm('Are you sure?')">
-                <span data-feather="x-circle"></span>
-              </button>
-            </form>
-              
-            </a>
-          </td>
+          <td>{{ $file->title }}</td>
+          <td>{{ $file->category->name }}</td>
         </tr>
         @endforeach  --}}
       </tbody>

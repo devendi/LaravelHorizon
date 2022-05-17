@@ -93,3 +93,4 @@ class LogMessage{
 // });
 
 Route::post('saveCSV',[ProductController::class, 'saveCSV']);
+Route::get('parseCSV',[ProductController::class, 'parseCSV']);

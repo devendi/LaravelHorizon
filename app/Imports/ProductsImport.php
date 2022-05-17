@@ -79,17 +79,40 @@ END;
             $app->set("piece_price:$addname", $set_piece_price);
             // return $app->get("piece_price:$addname");
             // ddd($row);
+            
+            // $Product = Product::where('key', '=', $set_key)->first();
+            if (Product::where('key', '=', $set_key)->first()){
+                // echo 'a';exit;
+                // return Product::where('key', $set_key)
+                //     ->update([
+                //         'product_title'=> $set_product_title
+                //     ]);
 
-            return new Product([
-                'key'=> $set_key,
-                'product_title'=> $set_product_title,
-                'product_description'=> $set_product_description,
-                'style'=> $set_style,
-                'sanmar_mainframe_color'=> $set_sanmar_mainframe_color,
-                'size'=> $set_size,
-                'color_name'=> $set_color_name,
-                'piece_price'=> $set_piece_price,
-            ]);
+                $validatedData['product_title'] = $set_product_title;
+                $validatedData['product_description'] = $set_product_description;
+                $validatedData['style'] = $set_style;
+                $validatedData['sanmar_mainframe_color'] = $set_sanmar_mainframe_color;
+                $validatedData['size'] = $set_size;
+                $validatedData['color_name'] = $set_color_name;
+                $validatedData['piece_price'] = $set_piece_price;
+                
+                Product::where('key', $set_key)
+                    ->update($validatedData);
+
+
+            }else{
+                return new Product([
+                    'key'=> $set_key,
+                    'product_title'=> $set_product_title,
+                    'product_description'=> $set_product_description,
+                    'style'=> $set_style,
+                    'sanmar_mainframe_color'=> $set_sanmar_mainframe_color,
+                    'size'=> $set_size,
+                    'color_name'=> $set_color_name,
+                    'piece_price'=> $set_piece_price,
+                ]);
+            }
+            
         // }
     }
 }
