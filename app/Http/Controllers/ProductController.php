@@ -82,4 +82,17 @@ class ProductController extends Controller
     {
         //
     }
+    public function saveCSV(Request $request)
+    {
+        // echo 'aaaaaaaaaaa';exit;
+        
+        $validatedData = $request->validate([
+            'filecsv' => 'required|file|max:5024'
+        ]);
+
+        $request->file('filecsv')->store('post-file');
+
+        // return back();
+    }
+    
 }

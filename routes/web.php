@@ -1,15 +1,16 @@
 <?php
 
-use App\Imports\UsersImport;
-use App\Imports\ProductsImport;
 use App\User;
 use App\Product;
+use App\Imports\UsersImport;
+use App\Imports\ProductsImport;
 // use Maatwebsite\Excel\Excel;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    
+    // return view('welcome');
+    return view('homes',[
+        'users' => Product::all()
+    ]);
 });
 
 Route::get('/product', function () {
@@ -32,19 +37,19 @@ Route::get('/product', function () {
     ]);
 });
 
-Route::get('/redis', function () {
+// Route::get('/redis', function () {
     
-    // // print_r(app()->make('redis'));
-    // $app = app()->make('redis');
-    // $redis = app()->make('redis');
-    // $redis->set('key1', 'value test');
-    // return $redis->get('key1');
+//     // // print_r(app()->make('redis'));
+//     // $app = app()->make('redis');
+//     // $redis = app()->make('redis');
+//     // $redis->set('key1', 'value test');
+//     // return $redis->get('key1');
     
-    $app = Redis::connection();
-    $app->set('key2', 'value test 2');
-    return $app->get('key2');
+//     $app = Redis::connection();
+//     $app->set('key2', 'value test 2');
+//     return $app->get('key2');
 
-});
+// });
 
 Route::get('/queue', function () {
     $queue = Queue::push('LogMessage',array('message'=>'Time: '.time()));
@@ -68,10 +73,23 @@ Route::post('import', function () {
 });
 
 Route::post('import_product', function () {
-
+    
     $fileName = time().'_'.request()->file->getClientOriginalName();
     request()->file('file')->storeAs('reports', $fileName, 'public');
+    
     // ddd(request()->file('file'));
     Excel::import(new ProductsImport, request()->file('file'));
     return redirect()->back()->with('success','Data Imported Successfully');
 });
+
+Route::post('import_product2', function () {
+    
+    $fileName = time().'_'.request()->file->getClientOriginalName();
+    request()->file('filecsv')->storeAs('reports', $fileName, 'public');
+    return request()->file('filecsv')->store('post-images');
+    // ddd(request()->file('file'));
+    // Excel::import(new ProductsImport, request()->file('file'));
+    // return redirect()->back()->with('success','Data Imported Successfully');
+});
+
+Route::post('saveCSV',[ProductController::class, 'saveCSV']);
